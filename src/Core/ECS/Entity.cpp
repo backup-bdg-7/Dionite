@@ -1,16 +1,5 @@
+// Entity.cpp — see header for implementation. All methods are templated/inline.
 #include "Entity.h"
-
-namespace ShatteredWilds::Core::ECS {
-
-Entity::Entity(entt::entity handle, entt::registry& registry)
-    : m_handle(handle), m_registry(&registry) {}
-
-bool Entity::IsValid() const {
-    return m_registry && m_registry->valid(m_handle);
+namespace dionite::core {
+// (intentionally empty; all logic is header-defined for template support)
 }
-
-entt::entity Entity::GetHandle() const {
-    return m_handle;
-}
-
-} // namespace ShatteredWilds::Core::ECS

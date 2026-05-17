@@ -1,0 +1,15 @@
+{
+  "gems": [
+    { "id": "gem_ruby",     "name": "Ruby",     "color": "#dc2626", "stat": "dmgFlat",     "amt": 4,    "tier": 1 },
+    { "id": "gem_sapphire", "name": "Sapphire", "color": "#3b82f6", "stat": "manaMax",     "amt": 15,   "tier": 1 },
+    { "id": "gem_emerald",  "name": "Emerald",  "color": "#16a34a", "stat": "lifesteal",   "amt": 0.04, "tier": 1 },
+    { "id": "gem_topaz",    "name": "Topaz",    "color": "#fbbf24", "stat": "fireRatePct", "amt": 0.10, "tier": 1 },
+    { "id": "gem_amethyst", "name": "Amethyst", "color": "#a855f7", "stat": "critChance",  "amt": 0.06, "tier": 1 },
+    { "id": "gem_diamond",  "name": "Diamond",  "color": "#e0f2fe", "stat": "allRes",      "amt": 12,   "tier": 1 }
+  ],
+  "fusion_rules": {
+    "tier_multiplier": 2.2,
+    "stones_required_per_tier": 3,
+    "max_tier": 5
+  }
+}

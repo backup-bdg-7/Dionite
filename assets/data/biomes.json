@@ -1,0 +1,16 @@
+{
+  "biomes": [
+    { "id": "verdant_wilds", "name": "Verdant Wilds", "fog": "#0a1a10", "ambient": "#34d399", "music": "forest",  "difficulty": 1.0, "enemies": ["shade","wraith","archer"] },
+    { "id": "ashen_wastes",  "name": "Ashen Wastes",  "fog": "#1a0d05", "ambient": "#f97316", "music": "embers",  "difficulty": 1.5, "enemies": ["brute","wraith","shade"] },
+    { "id": "frozen_spire",  "name": "Frozen Spire",  "fog": "#08121f", "ambient": "#38bdf8", "music": "wind",    "difficulty": 2.0, "enemies": ["ironclad","archer"] },
+    { "id": "sunken_crypts", "name": "Sunken Crypts", "fog": "#061d22", "ambient": "#2dd4bf", "music": "abyss",   "difficulty": 2.5, "enemies": ["wraith","ironclad","brute"] },
+    { "id": "sky_citadel",   "name": "Sky Citadel",   "fog": "#1a1208", "ambient": "#fde047", "music": "thunder", "difficulty": 3.5, "enemies": ["ironclad","brute","archer"] }
+  ],
+  "bosses": [
+    { "id": "verdant_warden", "biome": "verdant_wilds", "name": "Warden of the Verdant", "hp": 800,  "dmg": 28, "phases": 2, "soulFragment": "frag_verdant" },
+    { "id": "ash_tyrant",     "biome": "ashen_wastes",  "name": "Tyrant of Ashes",       "hp": 1400, "dmg": 40, "phases": 2, "soulFragment": "frag_ash" },
+    { "id": "frost_lord",     "biome": "frozen_spire",  "name": "The Frostlord",         "hp": 2200, "dmg": 50, "phases": 2, "soulFragment": "frag_frost" },
+    { "id": "drowned_king",   "biome": "sunken_crypts", "name": "Drowned King",          "hp": 3200, "dmg": 64, "phases": 2, "soulFragment": "frag_drowned" },
+    { "id": "sky_sovereign",  "biome": "sky_citadel",   "name": "Sky Sovereign",         "hp": 5000, "dmg": 80, "phases": 2, "soulFragment": "frag_sky" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "rarities": [
+    { "id": "common",    "weight": 60.0, "color": "#B0B0B0", "sockets": 0, "affixes": 0 },
+    { "id": "magic",     "weight": 25.0, "color": "#3B82F6", "sockets": 1, "affixes": 1 },
+    { "id": "rare",      "weight": 10.0, "color": "#FBBF24", "sockets": 2, "affixes": 2 },
+    { "id": "epic",      "weight":  4.0, "color": "#A855F7", "sockets": 3, "affixes": 3 },
+    { "id": "legendary", "weight":  0.9, "color": "#F97316", "sockets": 4, "affixes": 4 },
+    { "id": "mythic",    "weight":  0.1, "color": "#E11D48", "sockets": 6, "affixes": 5 }
+  ],
+  "weapons": [
+    { "id": "pistol",    "name": "Soulpiercer Pistol", "kind": "gun",   "dmg": 12, "fireRate": 0.20, "magazine": 12, "spread": 0.04, "projColor": "#fbbf24" },
+    { "id": "smg",       "name": "Whisper SMG",        "kind": "gun",   "dmg":  6, "fireRate": 0.08, "magazine": 40, "spread": 0.12, "projColor": "#60a5fa" },
+    { "id": "shotgun",   "name": "Hex Scattergun",     "kind": "gun",   "dmg":  5, "pellets": 7, "fireRate": 0.55, "magazine":  6, "spread": 0.35, "projColor": "#f97316" },
+    { "id": "rifle",     "name": "Stormcaller Rifle",  "kind": "gun",   "dmg": 28, "fireRate": 0.50, "magazine": 10, "spread": 0.01, "projColor": "#a855f7" },
+    { "id": "launcher",  "name": "Vesper Launcher",    "kind": "gun",   "dmg": 65, "fireRate": 1.00, "magazine":  4, "spread": 0.02, "projColor": "#e11d48", "explodeDmg": 80, "explodeRadius": 90 },
+    { "id": "staff",     "name": "Ember Staff",        "kind": "spell", "dmg": 18, "fireRate": 0.32, "magazine": 20, "spread": 0.02, "projColor": "#fbbf24", "burnDmg": 5 },
+    { "id": "frostwand", "name": "Frostwand of Vael",  "kind": "spell", "dmg": 14, "fireRate": 0.22, "magazine": 24, "spread": 0.03, "projColor": "#38bdf8", "slow": 0.4 }
+  ],
+  "affixes": [
+    { "id": "cruel",      "name": "Cruel",      "stat": "dmgPct",     "amt": 0.30 },
+    { "id": "savage",     "name": "Savage",     "stat": "dmgPct",     "amt": 0.18 },
+    { "id": "razor",      "name": "Razor",      "stat": "critChance", "amt": 0.08 },
+    { "id": "merciless",  "name": "Merciless",  "stat": "critMult",   "amt": 0.50 },
+    { "id": "fervent",    "name": "Fervent",    "stat": "firePct",    "amt": 0.18 },
+    { "id": "vampiric",   "name": "Vampiric",   "stat": "lifesteal",  "amt": 0.06 },
+    { "id": "piercing",   "name": "Piercing",   "stat": "pierce",     "amt": 1    },
+    { "id": "echoing",    "name": "Echoing",    "stat": "echo",       "amt": 0.25 },
+    { "id": "glacial",    "name": "Glacial",    "stat": "slow",       "amt": 0.35 }
+  ]
+}

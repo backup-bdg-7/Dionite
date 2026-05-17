@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dionite Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #050505; --panel: #101014; --gold: #a5854c; --text: #e4dcd3;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--text); font-family: 'JetBrains Mono', monospace; }
+      h1, h2, h3 { font-family: 'Cinzel Decorative', serif; }
+      .panel { background: var(--panel); border: 1px solid #3a3632; padding: 16px; border-radius: 4px; }
+      .btn { background: #1a1620; border: 1px solid var(--gold); color: var(--text); padding: 8px 16px; cursor: pointer; font-family: inherit; }
+      .btn:hover { background: #2a2230; }
+      input { background: #050505; border: 1px solid #3a3632; color: var(--text); padding: 8px; font-family: inherit; width: 100%; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #3a3632; }
+      th { font-family: 'Cinzel Decorative'; color: var(--gold); }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

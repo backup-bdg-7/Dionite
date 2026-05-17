@@ -1,0 +1,21 @@
+{
+  "runes": [
+    { "id": "rune_el",    "name": "El",    "symbol": "ᛖ", "color": "#fbbf24", "stat": "critChance",  "amt": 0.03 },
+    { "id": "rune_eth",   "name": "Eth",   "symbol": "ᛇ", "color": "#a855f7", "stat": "enemyDefPct", "amt": -0.15 },
+    { "id": "rune_tir",   "name": "Tir",   "symbol": "ᛏ", "color": "#3b82f6", "stat": "manaOnKill",  "amt": 4 },
+    { "id": "rune_nef",   "name": "Nef",   "symbol": "ᚾ", "color": "#94a3b8", "stat": "knockback",   "amt": 1 },
+    { "id": "rune_ral",   "name": "Ral",   "symbol": "ᚱ", "color": "#f97316", "stat": "firePct",     "amt": 0.15 },
+    { "id": "rune_ort",   "name": "Ort",   "symbol": "ᛟ", "color": "#38bdf8", "stat": "shockPct",    "amt": 0.15 },
+    { "id": "rune_thul",  "name": "Thul",  "symbol": "ᚦ", "color": "#7dd3fc", "stat": "coldPct",     "amt": 0.15 },
+    { "id": "rune_amn",   "name": "Amn",   "symbol": "ᚨ", "color": "#dc2626", "stat": "lifesteal",   "amt": 0.06 },
+    { "id": "rune_sol",   "name": "Sol",   "symbol": "ᛋ", "color": "#fde047", "stat": "dmgPct",      "amt": 0.20 },
+    { "id": "rune_shael", "name": "Shael", "symbol": "ᛊ", "color": "#f59e0b", "stat": "fireRatePct", "amt": 0.20 }
+  ],
+  "rune_words": [
+    { "id": "rw_doom",   "name": "DOOM",   "runes": ["rune_sol","rune_amn","rune_ral"],            "bonus": { "dmgPct": 0.70, "lifesteal": 0.10, "firePct": 0.30 }, "desc": "Sol + Amn + Ral — terrible, swift sword." },
+    { "id": "rw_spirit", "name": "SPIRIT", "runes": ["rune_tir","rune_thul","rune_ort"],           "bonus": { "manaMax": 50, "coldPct": 0.40, "shockPct": 0.40 },     "desc": "Tir + Thul + Ort — channel the storm." },
+    { "id": "rw_grief",  "name": "GRIEF",  "runes": ["rune_eth","rune_amn","rune_shael"],          "bonus": { "dmgPct": 1.00, "fireRatePct": 0.40, "lifesteal": 0.08 }, "desc": "Eth + Amn + Shael — devastating attacks." },
+    { "id": "rw_oath",   "name": "OATH",   "runes": ["rune_el","rune_sol","rune_nef"],             "bonus": { "critChance": 0.15, "dmgPct": 0.40, "knockback": 2 },  "desc": "El + Sol + Nef — sworn devastation." },
+    { "id": "rw_enigma", "name": "ENIGMA", "runes": ["rune_thul","rune_tir","rune_el","rune_sol"], "bonus": { "dmgPct": 0.50, "manaMax": 75, "critChance": 0.10 },   "desc": "Thul + Tir + El + Sol — the unraveler." }
+  ]
+}

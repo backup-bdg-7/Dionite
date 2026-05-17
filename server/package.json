@@ -1,0 +1,30 @@
+{
+  "name": "dionite-server",
+  "version": "1.0.0",
+  "description": "Dionite — Shattered Wilds backend (REST + GraphQL + WebSocket, PostgreSQL).",
+  "main": "src/main/index.js",
+  "scripts": {
+    "start": "node src/main/index.js",
+    "dev": "nodemon src/main/index.js",
+    "migrate": "node-pg-migrate up",
+    "test": "node --test src/**/*.test.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.13.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "joi": "^17.13.0",
+    "dotenv": "^16.4.5",
+    "ws": "^8.18.0",
+    "rate-limiter-flexible": "^5.0.4",
+    "apple-signin-auth": "^1.7.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "node-pg-migrate": "^7.6.1"
+  }
+}

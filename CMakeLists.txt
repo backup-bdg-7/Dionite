@@ -1,29 +1,24 @@
-cmake_minimum_required(VERSION 3.16)
-project(ShatteredWilds LANGUAGES CXX)
+cmake_minimum_required(VERSION 3.20)
+project(Dionite LANGUAGES CXX)
 
-# Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Output directories
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+# -----------------------------------------------------------------------------
+# Dependencies (expect they were installed via vcpkg or system package manager).
+# Set DIONITE_USE_BUNDLED=ON to skip find_package for headless CI builds.
+# -----------------------------------------------------------------------------
+option(DIONITE_USE_BUNDLED "Skip find_package for nlohmann_json (use bundled header)" OFF)
+if(NOT DIONITE_USE_BUNDLED)
+  find_package(nlohmann_json CONFIG QUIET)
+endif()
 
-# Dependencies
-find_package(glfw3 3.3 REQUIRED)
-find_package(vulkan REQUIRED)
-find_package(glm REQUIRED)
-find_package(stb_image REQUIRED)
-find_package(assimp REQUIRED)
-find_package(nlohmann_json 3.2 REQUIRED)
-find_package(entt REQUIRED)
-find_package(spdlog REQUIRED)
-find_package(utf8proc REQUIRED)
-
-# Core library
-add_library(Core STATIC
+# -----------------------------------------------------------------------------
+# Core library (header-mostly, but includes .cpp stubs for build symbols).
+# -----------------------------------------------------------------------------
+add_library(DioniteCore STATIC
     src/Core/ECS/Entity.cpp
     src/Core/ECS/Component.cpp
     src/Core/ECS/System.cpp
@@ -34,51 +29,24 @@ add_library(Core STATIC
     src/Core/Serialization/Serializer.cpp
     src/Core/Utils/FileUtils.cpp
 )
+target_include_directories(DioniteCore PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+if(TARGET nlohmann_json::nlohmann_json)
+  target_link_libraries(DioniteCore PUBLIC nlohmann_json::nlohmann_json)
+endif()
 
-target_include_directories(Core PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/ECS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Math
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Logging
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Config
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Serialization
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core/Utils
-    ${GLFW3_INCLUDE_DIRS}
-    ${Vulkan_INCLUDE_DIRS}
-    ${GLM_INCLUDE_DIRS}
-    ${STB_IMAGE_INCLUDE_DIRS}
-    ${ASSIMP_INCLUDE_DIRS}
-    ${NLOHMANN_JSON_INCLUDE_DIR}
-    ${ENTT_INCLUDE_DIRS}
-    ${SPDLOG_INCLUDE_DIRS}
-    ${UTF8PROC_INCLUDE_DIR}
-)
-
-target_link_libraries(Core PUBLIC
-    glfw
-    ${Vulkan_LIBRARIES}
-    glm
-    stb_image
-    assimp
-    nlohmann_json::nlohmann_json
-    entt::entt
-    spdlog::spdlog
-    utf8proc::utf8proc
-)
-
-# Game library (will link with Core)
-add_library(Game STATIC
-    src/World/StreamingManager/StreamingManager.cpp
+# -----------------------------------------------------------------------------
+# Game library (combat, world, loot, NPCs, UI, networking, rendering)
+# -----------------------------------------------------------------------------
+add_library(DioniteGame STATIC
     src/World/Biomes/Biome.cpp
     src/World/DungeonGenerator/DungeonGenerator.cpp
+    src/World/StreamingManager/StreamingManager.cpp
     src/Player/Controller/PlayerController.cpp
     src/Player/Camera/GameCamera.cpp
     src/Combat/Weapons/WeaponBase.cpp
     src/Combat/Spells/SpellBase.cpp
     src/Progression/SkillTrees/SkillTree.cpp
     src/Loot/Items/ItemBase.cpp
-    src/Loot/Gems/GemBase.cpp
-    src/Loot/Runes/RuneBase.cpp
     src/NPCs/Base/NPCBase.cpp
     src/UI/Screens/UIScreen.cpp
     src/Networking/Client/NetworkClient.cpp
@@ -87,30 +55,31 @@ add_library(Game STATIC
     src/GameSystems/QuestSystem.cpp
     src/GameSystems/EconomySystem.cpp
 )
+target_link_libraries(DioniteGame PUBLIC DioniteCore)
 
-target_include_directories(Game PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Core
-    ${CORE_INCLUDE_DIRS}
-)
+# -----------------------------------------------------------------------------
+# Desktop executable (headless validation harness; replace main.cpp with a real
+# GLFW/Vulkan main on your platform of choice).
+# -----------------------------------------------------------------------------
+add_executable(DioniteDesktop src/platforms/desktop/main.cpp)
+target_link_libraries(DioniteDesktop PRIVATE DioniteGame)
 
-target_link_libraries(Game PUBLIC Core)
+# -----------------------------------------------------------------------------
+# iOS bridge library (shared with Swift host app via .a).
+# Build with: cmake -GXcode -DCMAKE_SYSTEM_NAME=iOS -DCMAKE_OSX_ARCHITECTURES=arm64
+# -----------------------------------------------------------------------------
+if(CMAKE_SYSTEM_NAME STREQUAL "iOS" OR APPLE)
+  add_library(DioniteIOS STATIC
+      platforms/ios/Dionite/DioniteBridgeImpl.cpp
+  )
+  target_link_libraries(DioniteIOS PUBLIC DioniteGame)
+  set_target_properties(DioniteIOS PROPERTIES
+      XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET 15.0
+      XCODE_ATTRIBUTE_ENABLE_BITCODE NO)
+endif()
 
-# Executable for desktop (placeholder)
-add_executable(ShatteredWildsDesktop src/platforms/desktop/main.cpp)
-target_link_libraries(ShatteredWildsDesktop PRIVATE Game)
-
-# iOS executable (placeholder - will be configured in Xcode)
-add_executable(ShatteredWildsiOSEmpty src/platforms/ios/main.cpp)
-
-# Copy assets to build directory
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/assets)
-add_custom_command(TARGET ShatteredWildsDesktop POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_CURRENT_SOURCE_DIR}/assets
-    $<TARGET_FILE_DIR:ShatteredWildsDesktop>
-)
-
-# Install rules
-install(TARGETS ShatteredWildsDesktop DESTINATION bin)
-install(DIRECTORY assets/ DESTINATION .)
+# -----------------------------------------------------------------------------
+# Install
+# -----------------------------------------------------------------------------
+install(TARGETS DioniteDesktop RUNTIME DESTINATION bin)
+install(DIRECTORY assets/ DESTINATION share/dionite/assets)

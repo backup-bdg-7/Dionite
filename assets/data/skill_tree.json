@@ -1,0 +1,35 @@
+{
+  "tree_warrior": [
+    { "id": "w_vigor1",  "name": "Vigor I",   "cost": 1, "tier": 0, "requires": [],          "effects": { "healthMax": 20 } },
+    { "id": "w_power1",  "name": "Power I",   "cost": 1, "tier": 0, "requires": ["w_vigor1"], "effects": { "dmgPct": 0.06 } },
+    { "id": "w_vigor2",  "name": "Vigor II",  "cost": 1, "tier": 1, "requires": ["w_power1"], "effects": { "healthMax": 30 } },
+    { "id": "w_reaver",  "name": "Reaver",    "cost": 1, "tier": 1, "requires": ["w_power1"], "effects": { "lifesteal": 0.04 } },
+    { "id": "w_power2",  "name": "Power II",  "cost": 2, "tier": 2, "requires": ["w_vigor2","w_reaver"], "effects": { "dmgPct": 0.10 } },
+    { "id": "w_iron",    "name": "Iron Skin", "cost": 2, "tier": 2, "requires": ["w_power2"], "effects": { "dmgReduce": 0.10 } },
+    { "id": "w_berserk", "name": "Berserker", "cost": 2, "tier": 2, "requires": ["w_power2"], "effects": { "critChance": 0.06 } },
+    { "id": "w_blood",   "name": "Bloodlust", "cost": 3, "tier": 3, "requires": ["w_iron","w_berserk"], "effects": { "dmgPct": 0.20, "lifesteal": 0.06 } },
+    { "id": "w_godking", "name": "Godking",   "cost": 5, "tier": 4, "requires": ["w_blood"], "keystone": true, "effects": { "dmgPct": 0.40, "healthMax": 100, "critChance": 0.10 } }
+  ],
+  "tree_arcanist": [
+    { "id": "m_insight1", "name": "Insight I",    "cost": 1, "tier": 0, "requires": [], "effects": { "manaMax": 20 } },
+    { "id": "m_elem1",    "name": "Elemental I",  "cost": 1, "tier": 0, "requires": ["m_insight1"], "effects": { "firePct": 0.08, "coldPct": 0.08, "shockPct": 0.08 } },
+    { "id": "m_insight2", "name": "Insight II",   "cost": 1, "tier": 1, "requires": ["m_elem1"], "effects": { "manaMax": 30 } },
+    { "id": "m_channel",  "name": "Channel",      "cost": 1, "tier": 1, "requires": ["m_elem1"], "effects": { "fireRatePct": 0.10 } },
+    { "id": "m_elem2",    "name": "Elemental II", "cost": 2, "tier": 2, "requires": ["m_insight2","m_channel"], "effects": { "dmgPct": 0.10 } },
+    { "id": "m_pyro",     "name": "Pyromancer",   "cost": 2, "tier": 2, "requires": ["m_elem2"], "effects": { "firePct": 0.25 } },
+    { "id": "m_cryo",     "name": "Cryomancer",   "cost": 2, "tier": 2, "requires": ["m_elem2"], "effects": { "slow": 0.20 } },
+    { "id": "m_echo",     "name": "Echocaster",   "cost": 3, "tier": 3, "requires": ["m_pyro","m_cryo"], "effects": { "echo": 0.25 } },
+    { "id": "m_arch",     "name": "Archmage",     "cost": 5, "tier": 4, "requires": ["m_echo"], "keystone": true, "effects": { "dmgPct": 0.35, "manaMax": 100, "fireRatePct": 0.20 } }
+  ],
+  "tree_shadow": [
+    { "id": "s_agile1",   "name": "Agile I",     "cost": 1, "tier": 0, "requires": [], "effects": { "dashCd": -0.5 } },
+    { "id": "s_prec1",    "name": "Precision I", "cost": 1, "tier": 0, "requires": ["s_agile1"], "effects": { "critChance": 0.05 } },
+    { "id": "s_evade",    "name": "Evasion",     "cost": 1, "tier": 1, "requires": ["s_prec1"], "effects": { "dodge": 0.06 } },
+    { "id": "s_crit",     "name": "Critical",    "cost": 1, "tier": 1, "requires": ["s_prec1"], "effects": { "critMult": 0.25 } },
+    { "id": "s_prec2",    "name": "Precision II","cost": 2, "tier": 2, "requires": ["s_evade","s_crit"], "effects": { "critChance": 0.08 } },
+    { "id": "s_dance",    "name": "Shadowdance", "cost": 2, "tier": 2, "requires": ["s_prec2"], "effects": { "dodge": 0.10 } },
+    { "id": "s_assassin", "name": "Assassin",    "cost": 2, "tier": 2, "requires": ["s_prec2"], "effects": { "critMult": 0.50 } },
+    { "id": "s_head",     "name": "Headhunter",  "cost": 3, "tier": 3, "requires": ["s_dance","s_assassin"], "effects": { "critChance": 0.10, "critMult": 0.5 } },
+    { "id": "s_whisper",  "name": "Whispering Death", "cost": 5, "tier": 4, "requires": ["s_head"], "keystone": true, "effects": { "critChance": 0.20, "critMult": 1.0, "dodge": 0.15 } }
+  ]
+}

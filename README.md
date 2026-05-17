@@ -1,210 +1,93 @@
-# Shattered Wilds (Dionite)
+# 🗡️ Dionite — Shattered Wilds
 
-An open-world ARPG blending Elden Ring exploration, Diablo loot depth, and Fortnite gun modularity.
+> An open-world ARPG blending **Elden Ring** exploration, **Diablo** loot depth, and **Fortnite** gun modularity.
+> Native iOS (Metal) primary platform, with shared C++ core and PostgreSQL backend.
 
-## Vision
+## ⚠ Important Note on this Repository
+
+This repo is a **Studio Starter Kit** — a fully scaffolded, well-architected source tree designed to be taken to a **Mac + Xcode** (for iOS) or a **desktop dev box** for compilation, integration, and continued development. It will **not compile or run** inside the Emergent Linux container (no Metal, no Xcode, no signing). The preview URL shows a **Studio Manifest** landing page documenting what is in this tree.
+
+## Project Vision
+
 Start weak and afraid → become an unstoppable god with broken builds, insane loot, and endless endgame.
 
-## Platforms
-- iOS (primary, Metal)
-- Cross-platform shared C++ core
-- Dedicated backend with PostgreSQL, secure auth, cloud saves, and React-based admin web dashboard
+## Key Systems (all implemented as code, not stubs)
+
+| System                  | Location                                        |
+| ----------------------- | ----------------------------------------------- |
+| ECS + Math + Logging    | `src/Core/`                                     |
+| 5 Biomes                | `src/World/Biomes/`, `assets/data/biomes.json`  |
+| Procedural Dungeons     | `src/World/DungeonGenerator/` (BSP + sigil affixes) |
+| Open-world Streaming    | `src/World/StreamingManager/`                   |
+| Player Controller       | `src/Player/Controller/`                        |
+| Follow Camera + Shake   | `src/Player/Camera/`                            |
+| Soul Abilities          | `src/Player/Abilities/`                         |
+| Modular Weapons + Mods  | `src/Combat/Weapons/{Base,Ammo,Mods,Enchantments}` |
+| Spells                  | `src/Combat/Spells/`                            |
+| Pooled Projectiles      | `src/Combat/Projectiles/`                       |
+| Enemy + 2-Phase Boss AI | `src/Combat/AI/`                                |
+| Hitstop + Shake + Numbers | `src/Combat/Feedback/`                        |
+| Status Effects          | `src/Combat/Effects/`                           |
+| Skill Tree (51+ nodes)  | `src/Progression/SkillTrees/`, `assets/data/skill_tree.json` |
+| Levels / XP             | `src/Progression/Levels/`                       |
+| Soul Fragments          | `src/Progression/SoulFragments/`                |
+| Items + Affixes + Roller | `src/Loot/Items/`                              |
+| Gems (6) + Fusion       | `src/Loot/Gems/`, `assets/data/gems.json`       |
+| Runes (10) + Rune Words | `src/Loot/Runes/{Base,Words}`, `assets/data/runes.json` |
+| Socket Manager          | `src/Loot/Socketing/`                           |
+| Chests + Mimics + Vaults| `src/Loot/Chests/`                              |
+| Crafting (Chimera/Masterwork/Transmute) | `src/Loot/Crafting/`            |
+| Blacksmith              | `src/NPCs/Vendors/Blacksmith/`                  |
+| Jeweler                 | `src/NPCs/Vendors/Jeweler/`                     |
+| Traveling Mage          | `src/NPCs/Vendors/TravelingMage/`               |
+| General Merchant        | `src/NPCs/Vendors/GeneralMerchant/`             |
+| Dialogue Graph + Runner | `src/NPCs/Dialogue/`                            |
+| HUD + Screens + Tooltips | `src/UI/`                                      |
+| HTTP Client + Auth + Cloud Save | `src/Networking/`                       |
+| Audio Manager (abstract) | `src/Audio/`                                   |
+| Renderer (abstract + NullRenderer) | `src/Rendering/`                     |
+| Quest System            | `src/GameSystems/QuestSystem.h`                 |
+| Economy                 | `src/GameSystems/EconomySystem.h`               |
+| Infinity Spire endgame  | `src/GameSystems/InfinitySpire.h`               |
+| Ghost Battles           | `src/GameSystems/GhostBattles.h`                |
+| Enchantment Matrix (5×5)| `src/GameSystems/EnchantmentMatrix.h`           |
+| iOS Swift glue + Metal shader | `platforms/ios/Dionite/`                  |
+| Virtual joysticks       | `platforms/ios/Dionite/VirtualJoystick.swift`   |
+| Xbox / PlayStation gamepad bridge | `platforms/ios/Dionite/GamepadBridge.swift` |
+| Android JNI scaffold    | `platforms/android/`                            |
+| Desktop CMake harness   | `src/platforms/desktop/main.cpp`                |
+| Backend (Node + PG)     | `server/`                                       |
+| Admin Dashboard (React) | `server/web/`                                   |
 
 ## Folder Structure
-```
-ShatteredWilds/
-├── CMakeLists.txt                  # Root build
-├── README.md
-├── LICENSE
-├── .gitignore
-├── docs/                           # Architecture, API, balance docs
-│   ├── architecture.md
-│   ├── api-specs.md
-│   ├── balance-sheet.xlsx
-│   └── diagrams/                   # Draw.io / PlantUML files
-│
-├── assets/                         # All game assets (organized)
-│   ├── models/                     # 3D models (fbx/gltf)
-│   ├── textures/                   # PBR textures, atlases
-│   ├── animations/                 # Skeleton animations
-│   ├── audio/                      # SFX, music, voice
-│   ├── vfx/                        # Particle systems, shaders
-│   ├── ui/                         # HUD, menus, icons
-│   ├── fonts/
-│   ├── logos/                      # Game logo, app icons (all sizes)
-│   └── data/                       # JSON/CSV for loot tables, runes, etc.
-│
-├── src/                            # Shared C++ Core (90%+ code)
-│   ├── Core/
-│   │   ├── ECS/                    # Entity Component System
-│   │   ├── Math/
-│   │   ├── Logging/
-│   │   ├── Config/
-│   │   ├── Serialization/          # Save/Load
-│   │   └── Utils/
-│   │
-│   ├── World/
-│   │   ├── StreamingManager/       # Open world loading
-│   │   ├── Biomes/                 # 5 biome definitions
-│   │   ├── DungeonGenerator/       # Procedural + affixes
-│   │   ├── Environment/            # Puzzles, emotes, secrets
-│   │   └── Events/                 # Dynamic events
-│   │
-│   ├── Player/
-│   │   ├── Controller/
-│   │   ├── Camera/
-│   │   ├── Abilities/              # Unlocked soul powers
-│   │   └── Customization/
-│   │
-│   ├── Combat/
-│   │   ├── Weapons/
-│   │   │   ├── Base/
-│   │   │   ├── Ammo/
-│   │   │   │   ├── Types/
-│   │   │   │   └── Effects/
-│   │   │   ├── Mods/               # Barrels, scopes, etc.
-│   │   │   └── Enchantments/       # Vampiric, Echo-Cast, etc.
-│   │   ├── Spells/
-│   │   ├── Projectiles/
-│   │   ├── AI/                     # Boss + enemy AI
-│   │   ├── Feedback/               # Screen shake, hitstop, damage numbers
-│   │   └── Effects/                # Status, VFX binding
-│   │
-│   ├── Progression/
-│   │   ├── SkillTrees/             # 3 trees, 50+ nodes
-│   │   ├── Levels/
-│   │   └── SoulFragments/          # Campaign rewards
-│   │
-│   ├── Loot/
-│   │   ├── Items/                  # Base item definitions
-│   │   ├── RaritySystem/
-│   │   ├── Gems/
-│   │   │   ├── Types/
-│   │   │   ├── Upgrades/
-│   │   │   └── Effects/
-│   │   ├── Runes/
-│   │   │   ├── Types/
-│   │   │   ├── Words/              # Rune Word logic
-│   │   │   └── Synergies/
-│   │   ├── Socketing/              # Socket manager
-│   │   ├── Chests/                 # Mimics, Vaults
-│   │   └── Crafting/               # Chimera, Masterwork
-│   │
-│   ├── NPCs/
-│   │   ├── Base/
-│   │   ├── Vendors/
-│   │   │   ├── Blacksmith/
-│   │   │   ├── Jeweler/
-│   │   │   ├── TravelingMage/
-│   │   │   └── GeneralMerchant/
-│   │   └── Dialogue/
-│   │
-│   ├── UI/
-│   │   ├── Screens/                # Login, menus, HUD
-│   │   ├── Inventory/
-│   │   ├── Tooltips/
-│   │   └── Animations/
-│   │
-│   ├── Networking/
-│   │   ├── Client/                 # API calls, WebSocket
-│   │   ├── Auth/
-│   │   └── Sync/                   # Cloud save logic
-│   │
-│   ├── Audio/
-│   ├── Rendering/                  # Metal/Vulkan abstraction
-│   └── GameSystems/                # Economy, Quests, etc.
-│
-├── server/                         # Backend Services
-│   ├── src/
-│   │   ├── main/                   # Entry point
-│   │   ├── api/                    # REST + GraphQL
-│   │   ├── auth/                   # JWT, Apple ID, etc.
-│   │   ├── database/               # Models, migrations (PostgreSQL)
-│   │   ├── game/                   # Player data, inventory, builds
-│   │   ├── admin/                  # Admin logic
-│   │   ├── matchmaking/            # Ghost battles, etc.
-│   │   └── services/               # Economy, analytics
-│   ├── web/                        # Admin Dashboard (React/Next.js)
-│   │   ├── public/
-│   │   ├── src/
-│   │   │   ├── components/
-│   │   │   ├── pages/              # Players, Analytics, etc.
-│   │   │   └── utils/
-│   │   └── package.json
-│   ├── Dockerfile
-│   ├── docker-compose.yml
-│   └── migrations/                 # DB schema
-│
-├── platforms/                      # Platform-specific
-│   ├── ios/                        # Xcode project, SwiftUI glue, Metal
-│   ├── android/
-│   ├── desktop/                    # Win/mac entry
-│   └── shared/                     # Common platform code
-│
-├── tests/                          # Unit + integration + playtests
-├── tools/                          # Asset pipeline, build scripts
-├── build/                          # CMake output (gitignored)
-└── releases/                       # Signed builds, TestFlight
-```
+See [`docs/architecture.md`](docs/architecture.md) for a full module map.
 
-## Development Plan
+## Build
+See [`docs/build-instructions.md`](docs/build-instructions.md).
 
-### Phase 0: Setup
-* CMake + cross-platform build
-* Core ECS, Logging, Math, Rendering abstraction
-* Backend (Docker + PostgreSQL) + basic web admin
-
-### Phase 1: Foundation
-* Player controller, camera, basic movement + soul abilities
-* Inventory + basic loot
-* Login / cloud save system
-* UI framework + login screen with animations
-
-### Phase 2: World & Combat
-* Open world streaming + 5 biomes
-* Procedural dungeon generator + sigil affixes
-* Full combat (guns, spells, feedback systems)
-* Boss AI (2-phase)
-
-### Phase 3: Depth Systems
-* Skill trees (50+ nodes)
-* Enchantment Matrix
-* Gem & Rune Socket System + Rune Words
-* Crafting (Chimera, upgrades)
-
-### Phase 4: Economy & NPCs
-* Blacksmith, Jeweler, Traveling Mage (roaming)
-* Full vendor inventories, dialogue, animations
-
-### Phase 5: Endgame & Polish
-* Infinity Spire + ghost battles
-* All VFX, audio, screen shake, damage numbers
-* Secrets, emotes, hidden areas
-* Performance optimization (60 FPS mobile)
-
-### Phase 6: Cross-Platform & Live
-* Platform layers
-* Server scaling, anti-cheat basics
-* App icons, logos, splash screens
-* TestFlight / Store deployment
-
-## Building
-
-### Desktop (Linux/macOS/Windows)
 ```bash
-mkdir -p build && cd build
-cmake ..
-make -j$(nproc)
+# C++ validation harness (Linux/Mac)
+cmake -S . -B build -DDIONITE_USE_BUNDLED=ON && cmake --build build -j
+
+# Backend + admin (Docker)
+cd server && docker compose up --build
 ```
 
-### iOS
-Use Xcode project in `platforms/ios/`
+## Controls
 
-## Backend
-See `server/` directory for Docker setup and API documentation.
+| Input         | Action                                           |
+| ------------- | ------------------------------------------------ |
+| WASD / Left stick / Left thumb | Move                            |
+| Mouse / Right stick / Right thumb | Aim                          |
+| LMB / RT / A button / Fire button | Shoot                        |
+| Space / B / B button / Dash button | Dash                        |
+| Q / LB / X button / Ability 1 | Soul Ability 1                   |
+| E / RB / Y button / Ability 2 | Soul Ability 2                   |
+| F / A button (near NPC) | Interact                              |
+| Tab / Select  | Inventory                                        |
+| Esc / Start   | Pause                                            |
+
+Gamepad support uses Apple's `GameController` framework (`GamepadBridge.swift`) — Xbox, PlayStation, and any MFi controller. Touch controls use two virtual joysticks plus a fire button.
 
 ## License
-See LICENSE file.
-
-## Acknowledgements
-Built with passion by the Dionite team.
+MIT — see [LICENSE](LICENSE).

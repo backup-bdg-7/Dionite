@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dionite
+      POSTGRES_PASSWORD: dionite
+      POSTGRES_DB: dionite
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports: ["5432:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dionite"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  server:
+    build: .
+    depends_on:
+      postgres: { condition: service_healthy }
+    environment:
+      DATABASE_URL: postgres://dionite:dionite@postgres:5432/dionite
+      JWT_SECRET: change-me-in-prod
+      FRONTEND_URL: http://localhost:5173
+      APPLE_BUNDLE_ID: com.dionite.shatteredwilds
+      PORT: 4000
+    ports: ["4000:4000"]
+
+  admin:
+    build: ./web
+    environment:
+      VITE_API_URL: http://localhost:4000
+    ports: ["5173:5173"]
+    depends_on: [server]
+
+volumes:
+  pgdata:
