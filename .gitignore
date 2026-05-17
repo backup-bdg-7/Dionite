@@ -19,3 +19,12 @@ yarn-error.log
 package-lock.json
 xcuserdata/
 *.xcworkspace/xcuserdata/
+-e 
+# Environment and credential files
+.env
+.env.*
+*.env
+credentials.json
+*.pem
+*.key
+.credentials
