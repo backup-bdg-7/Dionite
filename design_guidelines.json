@@ -1,0 +1,189 @@
+{
+  "theme": "dark",
+  "archetype": "5 (Jewel & Luxury / Dark Fantasy extension)",
+  "aesthetic_description": "Dark fantasy ARPG UI inspired by Diablo IV, Path of Exile, and Hades. Gritty, arcane, heavy textures (stone, leather, parchment), high contrast glows, ornate framing, deep layers.",
+  "typography": {
+    "google_fonts_imports": [
+      "@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;0,800;1,400&family=JetBrains+Mono:wght@400;700&display=swap');"
+    ],
+    "headings": {
+      "family": "'Cinzel Decorative', serif",
+      "weight_default": 700,
+      "style": "Ornate, sharp, majestic. Use tight tracking. Often uppercase for major titles.",
+      "text_shadow": "0 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(var(--color-primary-rgb), 0.3)"
+    },
+    "body": {
+      "family": "'EB Garamond', serif",
+      "weight_default": 400,
+      "style": "Readable but thematic. Classic fantasy serif. Good for lore and standard descriptions."
+    },
+    "stats_and_mono": {
+      "family": "'JetBrains Mono', monospace",
+      "weight_default": 400,
+      "style": "Use for raw stats, damage numbers, cooldowns, and admin dashboard data."
+    }
+  },
+  "color_palette": {
+    "base": {
+      "background_void": "#050505",
+      "background_panel": "#101014",
+      "background_parchment": "#2C2621",
+      "border_stone": "#3A3632",
+      "border_gold": "#A5854C",
+      "text_primary": "#E4DCD3",
+      "text_secondary": "#A39E96",
+      "text_muted": "#6E6862",
+      "cursor_glow": "#9333EA"
+    },
+    "rarity": {
+      "common": "#B0B0B0",
+      "magic": "#3B82F6",
+      "rare": "#FBBF24",
+      "epic": "#A855F7",
+      "legendary": "#F97316",
+      "mythic": "#E11D48"
+    },
+    "hud": {
+      "health_orb": "#DC2626",
+      "health_orb_glow": "rgba(220, 38, 38, 0.4)",
+      "mana_orb": "#2563EB",
+      "mana_orb_glow": "rgba(37, 99, 235, 0.4)",
+      "stamina_orb": "#16A34A"
+    },
+    "biomes": {
+      "verdant_wilds": {
+        "primary": "#064E3B",
+        "accent": "#34D399",
+        "atmosphere": "Deep forest greens, glowing moss, wood brown, soft volumetric light."
+      },
+      "ashen_wastes": {
+        "primary": "#451A03",
+        "accent": "#F97316",
+        "atmosphere": "Charcoal, smoldering orange embers, pale ash grey."
+      },
+      "frozen_spire": {
+        "primary": "#0F172A",
+        "accent": "#38BDF8",
+        "atmosphere": "Ice blue, stark white glares, deep navy abyss."
+      },
+      "sunken_crypts": {
+        "primary": "#062E35",
+        "accent": "#2DD4BF",
+        "atmosphere": "Seaweed green, abyssal black, bioluminescent cyan."
+      },
+      "sky_citadel": {
+        "primary": "#422006",
+        "accent": "#FDE047",
+        "atmosphere": "Radiant white marble, golden clouds, storm gray shadows."
+      }
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Dense and heavy. Information must be extremely clear in combat but panels should feel tangible.",
+    "hud_layout": {
+      "bottom_center": "Health and Mana Orbs flanking the hotbar (abilities/cooldowns).",
+      "top_right": "Minimap with circular ornate border.",
+      "bottom_right": "System toggles (Inventory, Skills, Map, Spire).",
+      "top_center": "Boss Healthbar (when active).",
+      "top_left": "Player level, buffs, and debuffs."
+    },
+    "panels": {
+      "inventory": "Diablo-style grid (e.g. 10x4 slots). Items take up varied slot sizes.",
+      "skill_tree": "Path of Exile style web. Full viewport overlay, panning and zooming enabled."
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "Dark stone background, gold border, hover triggers a sigil inner-glow and border brightness increase. Text uses Cinzel.",
+      "danger": "Dark stone background, crimson border, hover triggers blood-red inner glow."
+    },
+    "panels": {
+      "base_style": "Deep background (#101014) with a slight noise texture. Border is thick and ornate, often using border-image with a metallic or carved stone look.",
+      "glassmorphism": "Use backdrop-blur-md with bg-black/60 for overlay panels to obscure gameplay without blacking it out entirely."
+    },
+    "tooltips": {
+      "item_tooltip": "Solid dark background (no blur) to ensure readability. Rarity color top border. Title is rarity colored. Line separators are subtle gradients (center to transparent). Stats in EB Garamond or Mono."
+    },
+    "modals": {
+      "style": "Centered overlay, heavy #101014 background, thick gold or stone borders. Dim the backdrop heavily (bg-black/80)."
+    },
+    "tabs": {
+      "style": "Underline style or stone-carved blocks. Active tab has glowing text (Cinzel) and a gold bottom border. Inactive tabs are muted grey."
+    },
+    "sliders": {
+      "style": "Track is dark groove (#050505 with inset shadow). Thumb is a glowing gem or metallic notch (Gold or Crimson)."
+    },
+    "inputs_and_admin": {
+      "style": "Shadcn based, but heavily customized. Borders are #3A3632, backgrounds are #050505. Focus states ring with gold (#A5854C) instead of standard blue."
+    }
+  },
+  "animations": {
+    "button_hover": {
+      "duration": "0.2s",
+      "effect": "Box-shadow inner glow pulses, border-color shifts to brighter gold."
+    },
+    "item_drop": {
+      "duration": "0.5s",
+      "easing": "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+      "effect": "Pop up from center, slight arc, settle down. Rarity-colored beam of light shoots up."
+    },
+    "damage_numbers": {
+      "duration": "0.8s",
+      "effect": "Translate Y upward by 40px, scale up then scale down, fade to opacity 0."
+    },
+    "screen_shake": {
+      "keyframes": "0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); }"
+    },
+    "tooltip_slide": {
+      "effect": "Fade in and slide up 10px fast (0.15s) ease-out."
+    }
+  },
+  "image_urls": {
+    "textures": [
+      {
+        "url": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMjd8MHwxfHNlYXJjaHwxfHxkYXJrJTIwcGFyY2htZW50JTIwdGV4dHVyZSUyMGJhY2tncm91bmRzfGVufDB8fHx8MTc3ODk4OTg4OXww&ixlib=rb-4.1.0&q=85",
+        "description": "Dark grunge texture, use for panel backgrounds overlay with opacity 0.1",
+        "category": "background_texture"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1550053808-52a75a05955d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxkYXJrJTIwZmFudGFzeSUyMHN0b25lJTIwdGV4dHVyZXxlbnwwfHx8fDE3Nzg5ODk4ODl8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Dark marble/stone texture, use for heavy borders or primary action buttons",
+        "category": "stone_texture"
+      }
+    ],
+    "recommendations": [
+      "Search for 'gothic gold frame png' for tooltip borders",
+      "Search for 'diablo 4 health orb transparent' as reference for CSS radial gradients",
+      "Search for 'seamless noise texture' to add film grain over the entire canvas"
+    ]
+  },
+  "css_variables": {
+    "root": {
+      "--bg-void": "#050505",
+      "--bg-panel": "#101014",
+      "--border-stone": "#3A3632",
+      "--border-gold": "#A5854C",
+      "--text-primary": "#E4DCD3",
+      "--text-secondary": "#A39E96",
+      "--rarity-common": "#B0B0B0",
+      "--rarity-magic": "#3B82F6",
+      "--rarity-rare": "#FBBF24",
+      "--rarity-epic": "#A855F7",
+      "--rarity-legendary": "#F97316",
+      "--rarity-mythic": "#E11D48",
+      "--font-heading": "'Cinzel Decorative', serif",
+      "--font-body": "'EB Garamond', serif",
+      "--font-mono": "'JetBrains Mono', monospace"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Inject the Google Fonts directly into the main index.css or index.html.",
+    "Do NOT use typical SaaS layout components (like standard Shadcn Cards) without heavy customization. The game UI must feel physical, using heavy borders and textures.",
+    "For the Canvas viewport, use standard HTML5 canvas but overlay it with a full-screen CSS radial-gradient vignette to fake lighting depth.",
+    "Implement the Rarity colors as a universal map or CSS variables so they can be applied to text, borders, and box-shadow glows easily.",
+    "Ensure all interactive elements have data-testid attributes for testing.",
+    "For floating damage numbers, use absolutely positioned React portals or native canvas drawing, ensuring high performance.",
+    "The admin dashboard should still utilize the dark background and fonts but can use standard Shadcn tables/forms tweaked to have stone/gold borders.",
+    "Consider adding a custom cursor, e.g. an arcane sigil pointer, to enhance the gaming feel."
+  ]
+}
