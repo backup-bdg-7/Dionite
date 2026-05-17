@@ -23,7 +23,7 @@ Returns the current user object.
 ### POST `/auth/apple`
 Body: `{ "identity_token":"…", "auth_code":"…" }` — verified against Apple, returns the same token bundle.
 
-## Player Save
+## Player Save (legacy single save — superseded by /characters)
 
 ### GET `/save`  *(auth)*
 Returns the player's full save blob.
@@ -46,6 +46,38 @@ Shape:
 
 ### POST `/save/reset` *(auth)*
 Wipes the save back to default.
+
+## Characters (multi-character roster, Diablo-style)
+
+### GET `/characters` *(auth)*
+List all characters for the signed-in user. Each row contains:
+```json
+{ "id": 12, "name": "Verith", "class_id": "crusader", "level": 56,
+  "paragon_level": 12, "last_biome": "ashen_wastes", "spire_best_floor": 24,
+  "play_seconds": 41020, "hardcore": false, "dead": false,
+  "updated_at": "2026-05-17T14:00:00Z" }
+```
+
+### POST `/characters` *(auth)*
+Create a new character. Body:
+```json
+{ "name": "Verith", "class_id": "crusader", "hardcore": false,
+  "cosmetic": { "body": "default_body", "head": "default_head", "tint": "#A5854C", "sigil": "sigil_doom" } }
+```
+- `class_id` ∈ `crusader | necromancer | sorcerer | ranger | monk`
+- Returns the full save blob for the new character.
+- Max **6 characters per user**.
+
+### GET `/characters/:id` *(auth)*
+Returns the full save blob for the character (must be owned).
+
+### PUT `/characters/:id` *(auth)*
+Replaces the full save blob. Backend mirrors `level`, `paragon_level`,
+`spire_best_floor`, `play_seconds`, `last_biome`, `dead` into top-level
+columns for fast roster queries.
+
+### DELETE `/characters/:id` *(auth)*
+Deletes the character.
 
 ## Infinity Spire
 

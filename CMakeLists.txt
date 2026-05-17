@@ -49,6 +49,11 @@ add_library(DioniteGame STATIC
     src/Combat/Weapons/WeaponBase.cpp
     src/Combat/Spells/SpellBase.cpp
     src/Progression/SkillTrees/SkillTree.cpp
+    src/Progression/Skills/SkillLibrary.Crusader.cpp
+    src/Progression/Skills/SkillLibrary.Necromancer.cpp
+    src/Progression/Skills/SkillLibrary.Sorcerer.cpp
+    src/Progression/Skills/SkillLibrary.Ranger.cpp
+    src/Progression/Skills/SkillLibrary.Monk.cpp
     src/Loot/Items/ItemBase.cpp
     src/NPCs/Base/NPCBase.cpp
     src/UI/Screens/UIScreen.cpp

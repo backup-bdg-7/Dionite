@@ -36,7 +36,41 @@ Build a mobile app titled **Dionite / Shattered Wilds** — an open-world ARPG b
 - **Docs**: `architecture.md`, `api-specs.md`, `build-instructions.md`, `balance-sheet.md`, `testing-plan.md`.
 - **Preview**: FastAPI manifest API + React landing page that browses every file (filter + tabs + content preview).
 
-**Generated totals:** 133 files, 5,811 lines (92 C++/.h+.cpp, 8 Swift/Metal/plist, 2 Android, 20 server JS/JSX/SQL/yml, 5 JSON data, 6 docs).
+**Generated totals:** 150 files, 7,124 lines (104 C++/.h+.cpp incl. ~125 skill definitions across 5 classes, 8 Swift/Metal/plist, 2 Android, 22 server JS/JSX/SQL/yml, 7 JSON data, 7 docs).
+
+## Class System (Diablo III/IV-style)
+- **5 Classes** registered in `src/Progression/Classes/ClassRegistry.h`:
+  Crusader (Wrath), Necromancer (Essence), Sorcerer (Mana), Ranger (Discipline), Monk (Spirit).
+  Each ships base stats (HP, resource, armor, move speed), damage affinities (physical/fire/cold/shock/holy/shadow/poison), starting basic + passives, portrait & lobby ambient asset hooks.
+- **~125 Skills** split into `SkillLibrary.<Class>.cpp` (Crusader/Necromancer/Sorcerer/Ranger/Monk), each with ~25 skills covering Basic (3), Core (3-4), Defensive (3), Mobility (2), Utility (3-4), Ultimate (2-3), Passive (7-8). Each skill has up to 5 ranks scaling damage +25%/rank, cooldown −10%/rank (floor 50%), cost −8%/rank (floor 50%).
+- **Diablo-rule enforcement** in `LoadoutManager::tryCast`:
+  - Basic skills bypass cooldown and cost (always usable) and grant resource.
+  - Core / Defensive / Mobility / Utility / Ultimate respect both resource cost (after rank discount) and cooldown.
+  - Passives are always-on.
+- **PlayerLoadout** with 6 active slots + 4 passive slots; `LoadoutManager::fitsSlot` validates that slot N only accepts the matching category.
+- **ResourceState** ticks regen each frame (Mana/Essence/Spirit auto-regen; Wrath/Discipline only via basics & passives).
+
+## Paragon System (post-100 endgame)
+- `ParagonSystem` in `src/Progression/Paragon/`. Unlocks at level 100. Every 1.5 M XP → +1 paragon level → 1 paragon point.
+- **21×21 boards** with node types Normal / Magic / Rare / Legendary / GlyphSocket. Allocation requires an adjacent allocated neighbor (path-based, like Diablo IV).
+- **Glyphs** empower same-stat nodes within their tile radius. 7 starter glyphs (Might, Grace, Genius, Resolve, Destruction, Warding, Executioner).
+- `aggregate(spent, glyphSockets)` returns the final stat dictionary including glyph multipliers.
+
+## New UI Screens
+- `LoadingScreen.h` — biome-aware tip rotation (3 tips per biome) + progress bar + on-complete callback.
+- `CharacterSelectScreen.h` — roster view (up to 6) with class/level/paragon/biome/spire/playtime summary.
+- `CharacterCreationScreen.h` — class pick, name validation (2-20 ASCII), hardcore toggle, cosmetic preview struct.
+
+## Backend (multi-character roster)
+- New table `characters (id, user_id, name, class_id, hardcore, dead, level, paragon_level, spire_best_floor, play_seconds, last_biome, blob JSONB, …)` with unique `(user_id, name)`.
+- `server/src/game/characters.js`: GET `/api/characters`, POST `/api/characters` (max 6), GET/PUT/DELETE `/api/characters/:id`.
+- New migration `server/migrations/002_characters.sql` plus inline bootstrap in `models.js`.
+- API docs updated in `docs/api-specs.md`.
+
+## New Data + Docs
+- `assets/data/classes.json` — class specs + slot rules + paragon meta.
+- `assets/data/skills_summary.json` — categorized skill ID lists per class (admin-tool source).
+- `docs/classes-and-skills.md` — canonical guide to the class + skill + paragon system.
 
 ## 3D Conversion (revised from initial 2D plan)
 - **Camera** (`src/Player/Camera/GameCamera.h`) rewritten as a fixed isometric/over-the-shoulder follow camera: pitch 55°, yaw 35°, distance 18 m, 60° FOV. Supports player-driven ±25° yaw pan (two-finger drag on touch, Alt-drag on desktop) — matches Diablo IV's preference.

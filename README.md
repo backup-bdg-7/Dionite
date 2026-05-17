@@ -25,7 +25,11 @@ Start weak and afraid → become an unstoppable god with broken builds, insane l
 | Open-world Streaming    | `src/World/StreamingManager/`                   |
 | Player Controller       | `src/Player/Controller/`                        |
 | **Diablo-style** Isometric Camera + Click-to-move ground pick | `src/Player/Camera/`     |
-| **A\* NavGrid** pathfinding | `src/World/DungeonGenerator/NavGrid.h`       |
+| **5 Classes** + Resource Manager + Loadout | `src/Progression/Classes/`, `src/Progression/Skills/` |
+| **~125 Skills** (Basic/Core/Defensive/Mobility/Utility/Ultimate/Passive) | `src/Progression/Skills/SkillLibrary.<Class>.cpp` |
+| **Paragon Board + Glyphs** | `src/Progression/Paragon/ParagonSystem.h` |
+| **Character Select / Creation / Loading** screens | `src/UI/Screens/` |
+| Multi-character backend roster | `server/src/game/characters.js`, `server/migrations/002_characters.sql` |
 | **3D Dungeon Mesh Builder** (floor/wall/prop/light) | `src/World/DungeonGenerator/DungeonMeshBuilder.h` |
 | Soul Abilities          | `src/Player/Abilities/`                         |
 | Modular Weapons + Mods  | `src/Combat/Weapons/{Base,Ammo,Mods,Enchantments}` |

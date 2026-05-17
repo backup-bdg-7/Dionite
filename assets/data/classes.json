@@ -1,0 +1,38 @@
+{
+  "$schema": "dionite-classes-v1",
+  "classes": [
+    { "id": "crusader",    "name": "Crusader",    "resource": { "name": "Wrath",      "color": "#F97316", "regen": 0,  "max": 100 },
+      "baseHealth": 130, "healthPerLevel": 8,  "armor": 22, "moveSpeed": 4.8,
+      "damageAffinity": { "physical": 1.10, "holy": 1.25, "shadow": 0.90 } },
+    { "id": "necromancer", "name": "Necromancer", "resource": { "name": "Essence",   "color": "#A855F7", "regen": 5,  "max": 120 },
+      "baseHealth": 110, "healthPerLevel": 6,  "armor": 14, "moveSpeed": 4.6,
+      "damageAffinity": { "shadow": 1.30, "poison": 1.20 } },
+    { "id": "sorcerer",    "name": "Sorcerer",    "resource": { "name": "Mana",      "color": "#3B82F6", "regen": 10, "max": 150 },
+      "baseHealth": 90,  "healthPerLevel": 5,  "armor": 8,  "moveSpeed": 5.0,
+      "damageAffinity": { "fire": 1.30, "cold": 1.30, "shock": 1.30 } },
+    { "id": "ranger",      "name": "Ranger",      "resource": { "name": "Discipline","color": "#16A34A", "regen": 0,  "max": 100 },
+      "baseHealth": 105, "healthPerLevel": 6,  "armor": 12, "moveSpeed": 5.2,
+      "damageAffinity": { "physical": 1.20, "poison": 1.20 } },
+    { "id": "monk",        "name": "Monk",        "resource": { "name": "Spirit",    "color": "#38BDF8", "regen": 2,  "max": 100 },
+      "baseHealth": 115, "healthPerLevel": 7,  "armor": 16, "moveSpeed": 5.4,
+      "damageAffinity": { "physical": 1.15, "shock": 1.20, "holy": 1.20 } }
+  ],
+  "slotRules": [
+    { "slot": 0, "category": "Basic",     "rule": "No cost. No cooldown. Generates resource on hit." },
+    { "slot": 1, "category": "Core",      "rule": "Costs resource. Short or no cooldown." },
+    { "slot": 2, "category": "Defensive", "rule": "Cooldown-gated. Small resource cost or none. Protective effect." },
+    { "slot": 3, "category": "Mobility",  "rule": "Cooldown-gated. Dash/teleport." },
+    { "slot": 4, "category": "Utility",   "rule": "Cooldown-gated. Buff/CC/summon." },
+    { "slot": 5, "category": "Ultimate",  "rule": "Long cooldown. Signature class identity." },
+    { "slot": "passive", "category": "Passive", "rule": "Always-on; up to 4 equipped at a time." }
+  ],
+  "perClassSkillCount": 25,
+  "totalSkills": 125,
+  "paragon": {
+    "unlockLevel": 100,
+    "xpPerParagonLevel": 1500000,
+    "boards": ["board_inception"],
+    "glyphTypes": ["might","grace","genius","resolve","destruction","warding","executioner"],
+    "glyphMaxLevel": 21
+  }
+}

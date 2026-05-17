@@ -11,6 +11,7 @@ const http = require('http');
 const { initDb, pool } = require('../database/models');
 const authRoutes = require('../auth/routes');
 const gameRoutes = require('../game/routes');
+const charRoutes = require('../game/characters');
 const adminRoutes = require('../admin/routes');
 const matchmakingRoutes = require('../matchmaking/routes');
 const { attachWs } = require('../matchmaking/ghosts');
@@ -30,6 +31,7 @@ async function main() {
   app.get('/api/health', (_, res) => res.json({ ok: true, ts: Date.now() }));
   app.use('/api/auth', authRoutes);
   app.use('/api', gameRoutes);
+  app.use('/api', charRoutes);
   app.use('/api/admin', adminRoutes);
   app.use('/api/match', matchmakingRoutes);
 
