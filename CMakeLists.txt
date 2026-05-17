@@ -41,6 +41,9 @@ add_library(DioniteGame STATIC
     src/World/Biomes/Biome.cpp
     src/World/DungeonGenerator/DungeonGenerator.cpp
     src/World/StreamingManager/StreamingManager.cpp
+    # 3D extensions:
+    # DungeonMeshBuilder.h and NavGrid.h are header-only and consumed by Renderer
+    # callers; no .cpp needed.
     src/Player/Controller/PlayerController.cpp
     src/Player/Camera/GameCamera.cpp
     src/Combat/Weapons/WeaponBase.cpp

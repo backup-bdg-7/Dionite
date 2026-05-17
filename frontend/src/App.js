@@ -88,8 +88,9 @@ export default function App() {
           SHATTERED  ·  WILDS
         </div>
         <p style={{ maxWidth: 720, marginTop: 18, color: '#a39e96', fontSize: 15, lineHeight: 1.6 }}>
-          An open-world ARPG blending <em>Elden Ring</em> exploration, <em>Diablo</em> loot depth, and <em>Fortnite</em> gun
-          modularity. This repository ships the complete source scaffolding — C++ shared core, Swift + Metal iOS layer,
+          An open-world ARPG with <strong>Diablo III/IV-style isometric 3D combat</strong> — fixed over-the-shoulder
+          camera, click-to-move + WASD hybrid input, PBR rendering, cascaded shadow maps, dynamic point lights, and
+          deep loot. This repository ships the complete source scaffolding — C++ shared core, Swift + Metal iOS layer,
           Android JNI scaffold, Node.js + PostgreSQL backend, and React admin dashboard.
         </p>
         <div className="panel-gold" style={{ marginTop: 18, padding: 14, maxWidth: 720, fontSize: 13 }}>

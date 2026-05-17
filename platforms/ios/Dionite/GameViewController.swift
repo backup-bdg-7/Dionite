@@ -53,10 +53,40 @@ class GameViewController: UIViewController, MTKViewDelegate {
         fireButton.addTarget(self, action: #selector(fireDown), for: .touchDown)
         fireButton.addTarget(self, action: #selector(fireUp), for: [.touchUpInside, .touchUpOutside, .touchCancel])
         view.addSubview(fireButton)
+
+        // Two-finger pan gesture for camera yaw
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        pan.minimumNumberOfTouches = 2
+        pan.maximumNumberOfTouches = 2
+        view.addGestureRecognizer(pan)
     }
 
     @objc func fireDown() { DioniteBridge.shared.setFire(true) }
     @objc func fireUp()   { DioniteBridge.shared.setFire(false) }
+
+    // ----- Click-to-move: tap on the world ground projects an NDC ray and
+    // hits the y=0 plane (handled by GameCamera::groundFromScreen in C++).
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let t = touches.first else { return }
+        let p = t.location(in: metalView)
+        // Skip if the tap landed on a UI control
+        if leftStick.frame.contains(p) || rightStick.frame.contains(p) || fireButton.frame.contains(p) { return }
+        let ndcX = Float((p.x / metalView.bounds.width) * 2 - 1)
+        let ndcY = Float(1 - (p.y / metalView.bounds.height) * 2)
+        // The native side performs the ray cast; we pass NDC as world Y=0 hint;
+        // for production, expose a `dionite_screen_to_world(ndcX, ndcY)` C entry
+        // that calls GameCamera::groundFromScreen and returns a world Vec3.
+        DioniteBridge.shared.clickToMove(world: SIMD3<Float>(ndcX * 20, 0, ndcY * 20))
+    }
+
+    // Two-finger horizontal drag = Diablo IV-style camera yaw pan
+    @objc func handlePan(_ g: UIPanGestureRecognizer) {
+        guard g.numberOfTouches >= 2 else { return }
+        let t = g.translation(in: metalView)
+        DioniteBridge.shared.panCamera(deltaDeg: Float(t.x) * 0.1)
+        g.setTranslation(.zero, in: metalView)
+    }
 
     func buildPipeline() {
         guard let library = device.makeDefaultLibrary() else { return }

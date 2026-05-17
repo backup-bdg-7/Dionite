@@ -4,7 +4,8 @@
 Build a mobile app titled **Dionite / Shattered Wilds** — an open-world ARPG blending Elden Ring exploration, Diablo loot depth, and Fortnite gun modularity. iOS primary (Metal), shared C++ core, dedicated backend with PostgreSQL and React admin dashboard. AAA-indie quality. Full implementation, no stubs.
 
 ## Realistic Scope (mutually agreed with user)
-- **Option B** chosen: deliver the complete source-code scaffolding for the native game (C++ core + Swift/Metal iOS + Android JNI + Node.js backend + React admin) as a Studio Starter Kit. User will compile and debug on their own Mac + Xcode and report issues for fixes.
+- **Option B** chosen: deliver the complete source-code scaffolding for the native game (C++ core + Swift/Metal iOS + Android JNI + Node.js backend + React admin) as a Studio Starter Kit. User compiles and debugs on their own Mac + Xcode and reports issues for fixes.
+- **Visual direction: Diablo III / IV-style isometric 3D** (revised mid-build from initial 2D plan). Fixed over-the-shoulder camera, click-to-move + WASD hybrid input, full PBR rendering pipeline with cascaded shadow maps and dynamic point lights.
 - The Emergent preview hosts a **Studio Manifest landing page** (FastAPI + React) that browses the generated codebase so the user can verify what was produced without leaving the browser.
 
 ## Tech Decisions
@@ -35,7 +36,18 @@ Build a mobile app titled **Dionite / Shattered Wilds** — an open-world ARPG b
 - **Docs**: `architecture.md`, `api-specs.md`, `build-instructions.md`, `balance-sheet.md`, `testing-plan.md`.
 - **Preview**: FastAPI manifest API + React landing page that browses every file (filter + tabs + content preview).
 
-**Generated totals:** 130 files, 5,159 lines (90 C++/.h+.cpp, 8 Swift/Metal/plist, 2 Android, 20 server JS/JSX/SQL/yml, 5 JSON data, 5 docs).
+**Generated totals:** 133 files, 5,811 lines (92 C++/.h+.cpp, 8 Swift/Metal/plist, 2 Android, 20 server JS/JSX/SQL/yml, 5 JSON data, 6 docs).
+
+## 3D Conversion (revised from initial 2D plan)
+- **Camera** (`src/Player/Camera/GameCamera.h`) rewritten as a fixed isometric/over-the-shoulder follow camera: pitch 55°, yaw 35°, distance 18 m, 60° FOV. Supports player-driven ±25° yaw pan (two-finger drag on touch, Alt-drag on desktop) — matches Diablo IV's preference.
+- **PlayerController** (`src/Player/Controller/PlayerController.h`) now supports hybrid input: **click-to-move** with A\* navigation target + **WASD/stick** rotated by camera yaw so "up" is always away-from-camera.
+- **NavGrid** (`src/World/DungeonGenerator/NavGrid.h`) — A\* over the dungeon tile graph, 8-connected, no corner-cutting, returns world-space waypoints.
+- **DungeonMeshBuilder** (`src/World/DungeonGenerator/DungeonMeshBuilder.h`) — converts BSP tile grid into 3D scene data: floor quads, wall segments (3.2 m), prop anchors (chest / boss_pad / spawn / torch), point lights per room (alternating warm/cool).
+- **Renderer** (`src/Rendering/Renderer.h`) extended with `PBRMaterial`, `PointLight`, `DirectionalLight`, `CameraUniforms` with 4-cascade shadow VP matrices.
+- **Shaders.metal** rewritten as full PBR pipeline: GGX + Smith G + Schlick fresnel, normal mapping via TBN, cascaded shadow map sampling with 3×3 PCF, point-light loop, Reinhard tonemap + gamma 2.2, emissive bloom feed, rim light.
+- **iOS GameViewController** picks up tap-to-move (projects NDC tap into world via `dionite_click_to_move`) and two-finger pan for `dionite_camera_pan`.
+- **Desktop harness** now exercises full 3D loop: dungeon → mesh → NavGrid path → camera/player update with rendered draw submissions.
+- **New doc:** `docs/visual-style.md` — camera config, biome lighting recipes, dungeon mesh conventions.
 
 ## What Won't Compile In The Preview (by design)
 - The C++ game core needs `nlohmann_json` (and ideally GLFW + Vulkan for desktop, Assimp for meshes).

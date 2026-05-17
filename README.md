@@ -1,7 +1,11 @@
 # 🗡️ Dionite — Shattered Wilds
 
-> An open-world ARPG blending **Elden Ring** exploration, **Diablo** loot depth, and **Fortnite** gun modularity.
-> Native iOS (Metal) primary platform, with shared C++ core and PostgreSQL backend.
+> An open-world ARPG with **Diablo III/IV-style isometric 3D combat**, Elden Ring exploration scope, Diablo loot depth,
+> and Fortnite gun modularity. Native iOS (Metal) primary platform with shared C++ core and PostgreSQL backend.
+>
+> **Visual style:** fixed over-the-shoulder isometric camera (pitch 55°, yaw 35°), click-to-move + WASD hybrid input,
+> full PBR rendering with cascaded shadow maps, dynamic point lights per dungeon room, normal-mapped meshes,
+> Reinhard tonemap + 2.2 gamma. See [`docs/visual-style.md`](docs/visual-style.md).
 
 ## ⚠ Important Note on this Repository
 
@@ -20,7 +24,9 @@ Start weak and afraid → become an unstoppable god with broken builds, insane l
 | Procedural Dungeons     | `src/World/DungeonGenerator/` (BSP + sigil affixes) |
 | Open-world Streaming    | `src/World/StreamingManager/`                   |
 | Player Controller       | `src/Player/Controller/`                        |
-| Follow Camera + Shake   | `src/Player/Camera/`                            |
+| **Diablo-style** Isometric Camera + Click-to-move ground pick | `src/Player/Camera/`     |
+| **A\* NavGrid** pathfinding | `src/World/DungeonGenerator/NavGrid.h`       |
+| **3D Dungeon Mesh Builder** (floor/wall/prop/light) | `src/World/DungeonGenerator/DungeonMeshBuilder.h` |
 | Soul Abilities          | `src/Player/Abilities/`                         |
 | Modular Weapons + Mods  | `src/Combat/Weapons/{Base,Ammo,Mods,Enchantments}` |
 | Spells                  | `src/Combat/Spells/`                            |
